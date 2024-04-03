@@ -1,1 +1,2 @@
 api/files/*
+api/__pycache__/*

@@ -1,7 +1,5 @@
-from fastapi import FastAPI, File, UploadFile, Response, HTTPException
-from fastapi.responses import FileResponse
-from os import listdir
-from os.path import isfile, join
+from fastapi import FastAPI, File, UploadFile
+from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 import shutil
 import os
