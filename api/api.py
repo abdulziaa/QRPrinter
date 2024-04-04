@@ -6,8 +6,14 @@ import os
 from os import listdir
 from os.path import join, isfile
 import asyncio
+from typing import List
+import ssl
+
 
 app = FastAPI()
+
+ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+ssl_context.load_cert_chain('./cert.pem', keyfile='./key.pem')
 
 # Enable CORS
 app.add_middleware(
@@ -34,7 +40,7 @@ async def clear_files_periodically():
         clear_files_directory()
 
 @app.post("/uploadfiles/")
-async def create_upload_files(files: list[UploadFile] = File(...)):
+async def create_upload_files(files: List[UploadFile] = File(...)):
     saved_files = []
     for file in files:
         file_path = os.path.join("./files", file.filename)
@@ -73,5 +79,6 @@ async def main():
 async def startup_event():
     # Start the background task to clear files periodically
     asyncio.create_task(clear_files_periodically())
-
-clear_files_directory()
+    
+    # Clear files directory when application starts
+    clear_files_directory()

@@ -39,7 +39,7 @@
         formData.append('files', file);
   
         try {
-          const response = await fetch('http://api.qr.abdulzia.com:8000/uploadfiles/', {
+          const response = await fetch('https://api.qr.abdulzia.com:8000/uploadfiles/', {
             method: 'POST',
             body: formData
           });
