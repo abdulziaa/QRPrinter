@@ -1,10 +1,11 @@
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, UploadFile, BackgroundTasks
 from fastapi.responses import HTMLResponse, FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 import shutil
 import os
 from os import listdir
 from os.path import join, isfile
+import asyncio
 
 app = FastAPI()
 
@@ -16,6 +17,21 @@ app.add_middleware(
     allow_methods=["GET", "POST", "PUT", "DELETE"],
     allow_headers=["*"],
 )
+
+def clear_files_directory():
+    directory = "./files"
+    for file in os.listdir(directory):
+        file_path = os.path.join(directory, file)
+        try:
+            if os.path.isfile(file_path):
+                os.unlink(file_path)
+        except Exception as e:
+            print(f"Error deleting file {file_path}: {e}")
+
+async def clear_files_periodically():
+    while True:
+        await asyncio.sleep(300)  # Wait for 5 minutes
+        clear_files_directory()
 
 @app.post("/uploadfiles/")
 async def create_upload_files(files: list[UploadFile] = File(...)):
@@ -52,3 +68,8 @@ async def main():
 </body>
     """
     return HTMLResponse(content=content)
+
+@app.on_event("startup")
+async def startup_event():
+    # Start the background task to clear files periodically
+    asyncio.create_task(clear_files_periodically())
