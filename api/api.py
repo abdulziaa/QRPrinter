@@ -73,3 +73,5 @@ async def main():
 async def startup_event():
     # Start the background task to clear files periodically
     asyncio.create_task(clear_files_periodically())
+
+clear_files_directory()
