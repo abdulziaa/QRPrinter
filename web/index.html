@@ -49,7 +49,10 @@
                     listItem.classList.add('list-group-item');
                     const link = document.createElement('a');
                     link.textContent = filename;
-                    link.href = `http://127.0.0.1:8000/file/${filename}`;
+                    link.addEventListener('click', function(event) {
+                        event.preventDefault();
+                        window.open(`http://127.0.0.1:8000/file/${filename}`, 'popup', 'width=1000,height=800,left=500,top=100');
+                    });
                     listItem.appendChild(link);
                     fileList.appendChild(listItem);
                 });
