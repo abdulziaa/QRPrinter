@@ -41,7 +41,7 @@
         
         async function fetchFiles() {
             try {
-                const response = await fetch('https://api.qr.abdulzia.com:8000/files');
+                const response = await fetch('https://api.qr.abdulzia.com/files');
                 const data = await response.json();
                 const fileList = document.getElementById('fileList');
                 data.files.forEach(filename => {
@@ -51,7 +51,7 @@
                     link.textContent = filename;
                     link.addEventListener('click', function(event) {
                         event.preventDefault();
-                        window.open(`https://api.qr.abdulzia.com:8000/file/${filename}`, 'popup', 'width=1000,height=800,left=500,top=100');
+                        window.open(`https://api.qr.abdulzia.com/file/${filename}`, 'popup', 'width=1000,height=800,left=500,top=100');
                     });
                     listItem.appendChild(link);
                     fileList.appendChild(listItem);
